@@ -2,7 +2,7 @@
 
 ## Pytest
 
-[![Python package](https://github.com/jorgebarrosmedeiros/fast_foundations/actions/workflows/python-package.yml/badge.svg?branch=ci_cd)](https://github.com/jorgebarrosmedeiros/fast_foundations/actions/workflows/python-package.yml)
+[![Python package](https://github.com/jorgebarrosmedeiros/fast_foundations/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/jorgebarrosmedeiros/fast_foundations/actions/workflows/python-package.yml)
 
 
 ## Introduction
