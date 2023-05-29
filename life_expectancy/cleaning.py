@@ -66,9 +66,7 @@ def read_file(file_path: str, sep: str) -> DataFrame:
         DataFrame: DataFrame containing the data from the file.
     """
     cwd = os.getcwd()
-    file_root_path = os.path.join(
-        cwd, "life_expectancy", "data", file_path
-    )
+    file_root_path = os.path.join(cwd, "life_expectancy", "data", file_path)
     life_expectancy_raw = pd.read_csv(file_root_path, sep=sep)
     return life_expectancy_raw
 
