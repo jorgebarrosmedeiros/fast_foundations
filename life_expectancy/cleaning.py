@@ -67,7 +67,7 @@ def read_file(file_path: str, sep: str) -> DataFrame:
     """
     cwd = os.getcwd()
     file_root_path = os.path.join(
-        cwd, "production", "fast_foundations", "life_expectancy", "data", file_path
+        cwd, "life_expectancy", "data", file_path
     )
     life_expectancy_raw = pd.read_csv(file_root_path, sep=sep)
     return life_expectancy_raw
@@ -121,7 +121,7 @@ def save_dataframe(dataframe: DataFrame, file_name: str, path: str) -> None:
     cwd = os.getcwd()
     path = "life_expectancy/data"
     dataframe.to_csv(
-        os.path.join(cwd, "production", "fast_foundations", path, f"{file_name}.csv"),
+        os.path.join(cwd, path, f"{file_name}.csv"),
         index=False,
     )
 
