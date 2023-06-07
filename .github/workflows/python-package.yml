@@ -34,6 +34,6 @@ jobs:
     - name: Lint with Pylint
       run: |
         pylint life_expectancy.cleaning
-    - name: Test with pytest
+    - name: Execute Pytest
       run: |
         pytest 

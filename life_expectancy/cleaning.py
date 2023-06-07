@@ -54,7 +54,7 @@ def unpivot_table(dataframe: DataFrame) -> DataFrame:
     return unpivoted_table_df
 
 
-def load_data(file_path_to_read: str, sep: str) -> DataFrame:
+def read_file(file_path: str, sep: str) -> DataFrame:
     """
     Reads a file into a DataFrame.
 
@@ -65,11 +65,9 @@ def load_data(file_path_to_read: str, sep: str) -> DataFrame:
     Returns:
         DataFrame: DataFrame containing the data from the file.
     """
-    cwd = os.getcwd()
-    file_root_path = os.path.join(
-        cwd, "assignments", "life_expectancy", "data", file_path_to_read
-    )
-    life_expectancy_raw = pd.read_csv(file_root_path, sep=sep)
+    file_root_path = "life_expectancy/data"
+    join_path = os.path.join(file_root_path, file_path)
+    life_expectancy_raw = pd.read_csv(join_path, sep=sep)
     return life_expectancy_raw
 
 
@@ -106,7 +104,7 @@ def filter_region(dataframe: DataFrame, region: str) -> DataFrame:
     return dataframe
 
 
-def save_data(dataframe: DataFrame, file_name: str, path: str) -> None:
+def save_dataframe(dataframe: DataFrame, file_name: str, path: str) -> None:
     """
     Saves the DataFrame to a CSV file.
 
@@ -118,6 +116,7 @@ def save_data(dataframe: DataFrame, file_name: str, path: str) -> None:
     Returns:
         None
     """
+    path = "life_expectancy/data"
     dataframe.to_csv(
         os.path.join(path, f"{file_name}.csv"),
         index=False,
@@ -139,47 +138,35 @@ def drop_null_values(dataframe: DataFrame, column: str) -> DataFrame:
     return dataframe
 
 
-def clean_data(life_expec_df, dropna_column="value", region="PT"):
+def clean_data(
+    file_path="eu_life_expectancy_raw.tsv",
+    region="PT",
+    path_to_save="life_expectancy/data",
+    filename_to_save="pt_life_expectancy",
+    dropna_column="value",
+):
     """
-    Cleans life expectancy data.
+    Cleans the data by reading the file, unpivoting the table,
+    and cleaning the year columns, and filtering by region
 
     Args:
-        life_expec_df (pandas.DataFrame): The dataframe containing the life expectancy data.
-        dropna_column (str, optional): Name of the column to drop null values (default: "value").
-        region (str, optional): Region to filter the data (default: 'PT').
+        file_path: File path.
 
     Returns:
-        pandas.DataFrame: Cleaned life expectancy data for the specified region.
+        Saved dataframe
     """
+
+    life_expec_df = read_file(file_path, sep="\t")
 
     life_expec_unpivot = unpivot_table(life_expec_df)
+
     life_expec_year_cleaned = clean_year(life_expec_unpivot)
+
     life_expec_no_null = drop_null_values(life_expec_year_cleaned, dropna_column)
+
     pt_life_expectancy = filter_region(life_expec_no_null, region)
 
-    return pt_life_expectancy
-
-
-def main(file_path_to_read, filename_to_save, path_to_save, region):
-
-    """
-    Main function to process and save life expectancy data.
-
-    Args:
-        file_path_to_read (str): File path to read the data from.
-        filename_to_save (str): File name to save the processed data.
-        path_to_save (str): Path to save the processed data.
-        region (str): Region to filter the data.
-
-    Returns:
-        None
-    """
-
-    life_expec_df = load_data(file_path_to_read, sep="\t")
-    pt_life_expectancy = clean_data(
-        life_expec_df=life_expec_df, region=region, dropna_column="value"
-    )
-    save_data(
+    save_dataframe(
         pt_life_expectancy,
         filename_to_save,
         path_to_save,
@@ -196,10 +183,4 @@ if __name__ == "__main__":
         help="Region to filter the data (default is PT).",
     )
     args = parser.parse_args()
-    main(
-        file_path_to_read="eu_life_expectancy_raw.tsv",
-        filename_to_save="pt_life_expectancy",
-        path_to_save="/Users/jorge/Documents/Repos/faast-foundations/production/" \
-                     "fast_foundations/life_expectancy/data",
-        region=args.region,
-    )
+    clean_data(region=args.region)
