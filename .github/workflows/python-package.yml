@@ -36,4 +36,4 @@ jobs:
         pylint life_expectancy.cleaning
     - name: Execute Pytest
       run: |
-        pytest 
+        pytest life_expectancy --cov  
