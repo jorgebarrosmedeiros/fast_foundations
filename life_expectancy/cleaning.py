@@ -1,5 +1,5 @@
 """
-Assignment 1 - Life Expectanncy
+Assignment 2 - Life Expectanncy
 """
 
 import os
@@ -65,9 +65,9 @@ def read_file(file_path: str, sep: str) -> DataFrame:
     Returns:
         DataFrame: DataFrame containing the data from the file.
     """
-    cwd = os.getcwd()
-    file_root_path = os.path.join(cwd, "life_expectancy", "data", file_path)
-    life_expectancy_raw = pd.read_csv(file_root_path, sep=sep)
+    file_root_path = "life_expectancy/data"
+    join_path = os.path.join(file_root_path, file_path)
+    life_expectancy_raw = pd.read_csv(join_path, sep=sep)
     return life_expectancy_raw
 
 
@@ -116,10 +116,9 @@ def save_dataframe(dataframe: DataFrame, file_name: str, path: str) -> None:
     Returns:
         None
     """
-    cwd = os.getcwd()
     path = "life_expectancy/data"
     dataframe.to_csv(
-        os.path.join(cwd, path, f"{file_name}.csv"),
+        os.path.join(path, f"{file_name}.csv"),
         index=False,
     )
 
